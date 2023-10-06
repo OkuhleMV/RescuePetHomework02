@@ -1,0 +1,183 @@
+﻿@model RescuePetHomework02.Models.PostAPetViewModel
+
+<h2>Post a Pet</h2>
+<div>
+    @using (Html.BeginForm("Post", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="user-details">
+            <h3>User Details</h3>
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserId)
+                @Html.DropDownListFor(model => model.UserId, ViewBag.Users as SelectList, "Select User", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserId)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber)
+                @Html.DropDownListFor(model => model.PhoneNumber, ViewBag.PhoneNumbers as SelectList, "Select Phone Number", new { @class = "form-control", id = "phone" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </div>
+        </div>
+<h3>Pet Details</h3>
+<div class="form-group_container">
+    <div class="form-group">
+
+        @Html.LabelFor(model => model.PetName)
+        @Html.TextBoxFor(model => model.PetName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PetName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PetStory)
+        @Html.TextAreaFor(model => model.PetStory, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.PetStory)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Gender)
+        @Html.DropDownListFor(model => model.Gender, ViewBag.Genders as SelectList, "Select Gender", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Gender)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PetType)
+        @Html.DropDownListFor(model => model.PetType, ViewBag.PetTypes as SelectList, "Select Pet Type", new { @class = "form-control", id = "PetType" })
+        @Html.ValidationMessageFor(model => model.PetType)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Breed)
+        @Html.DropDownListFor(model => model.Breed, ViewBag.Breeds as SelectList, "Select Breed", new { @class = "form-control", id = "breed" })
+        @Html.ValidationMessageFor(model => model.Breed)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Location)
+        @Html.DropDownListFor(model => model.Location, ViewBag.Locations as SelectList, "Select Location", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Location)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Age)
+        @Html.TextBoxFor(model => model.Age, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Age)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Weight)
+        @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Weight)
+    </div>
+
+    <div class="form-group file-input">
+        @Html.LabelFor(model => model.PetImage)
+        <input type="file" name="PetImage" id="PetImage" accept="image/*" />
+        @Html.ValidationMessageFor(model => model.PetImage)
+    </div>
+
+    <div style="text-align: center;">
+        <button type="submit" class="btn btn-post">Post</button>
+    </div>
+</div>
+        }  
+</div>
+
+<script>
+    function updateBreedOptions() {
+        var typeId = document.getElementById('PetType').value;
+        var breedDropdown = document.getElementById('breed');
+        breedDropdown.innerHTML = '<option value="">Select Breed</option>';
+
+        if (typeId) {
+            fetch('/Home/FilterBreedsByType?typeId=' + typeId)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (breeds) {
+                    breeds.forEach(function (breed) {
+                        var option = document.createElement('option');
+                        option.value = breed.BreedID;
+                        option.text = breed.Name;
+                        breedDropdown.appendChild(option);
+                    });
+                })
+                .catch(function (error) {
+                    console.error('Error fetching breed data:', error);
+                });
+        }
+    }
+
+    document.getElementById('PetType').addEventListener('change', updateBreedOptions);
+    updateBreedOptions();
+</script>
+
+<style>
+    body {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        color: #4caf50;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .user-details {
+        background-color: #fff;
+        border: 2px solid #4caf50;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f7f7f7;
+        font-size: 16px;
+        /* Allow text to wrap within the input */
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    .btn-post {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .file-input input[type="file"] {
+        display: none;
+    }
+
+    .file-input label {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+    }
+</style>
+

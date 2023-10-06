@@ -1,0 +1,177 @@
+﻿@model RescuePetHomework02.Models.Pet
+@{
+    ViewBag.Title = "Adopt";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt a Pet - Paws of Hope</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container1 {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #4caf50;
+        }
+
+        .petyy {
+            border-radius: 500px;
+        }
+
+        p {
+            color: #333;
+        }
+
+        h3 {
+            color: #4caf50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .col-md-6 {
+            padding: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>@Model.Name</h1>
+                <p>Age: @Model.Age</p>
+                <p>Location: @Model.Location.Name</p>
+                <p>Weight: @Model.Weight</p>
+                <p>Gender: @Model.Gender.Name</p>
+                <h3>My Story</h3>
+                <p>@Model.Story</p>
+                <h4>User Details</h4>
+
+                @using (Html.BeginForm("UpdateAdoptionStatus", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label for="SelectedFullName">Full Name:</label>
+                        @Html.DropDownList("SelectedFullName", ViewBag.FullNameDropdown as SelectList, "Select Full Name", new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SelectedPhone">Phone:</label>
+                        @Html.DropDownList("SelectedPhone", ViewBag.PhoneDropdown as SelectList, "Select Phone", new { @class = "form-control" })
+                    </div>
+
+                    @Html.DropDownList("SelectedUserId", ViewBag.UsersID as SelectList, "Select User", new { @class = "form-control", style = "display: none;" })
+
+                    <input type="hidden" name="petId" value="@Model.PetID" />
+                    <br />
+                    <button type="submit" class="btn btn-primary">Adopt Now</button>
+                }
+            </div>
+            <div class="col-md-6">
+                <div style="text-align: center;">
+                    <img src="~/Images/@Model.Image" alt="Pet Image" class="petyy">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Get references to the dropdowns and the adopt button
+        var fullNameDropdown = $("#SelectedFullName");
+        var phoneDropdown = $("#SelectedPhone");
+        var userDropdown = $("#SelectedUserId");
+
+        // Store the initial options of both dropdowns
+        var initialFullNameOptions = fullNameDropdown.html();
+        var initialPhoneOptions = phoneDropdown.html();
+        var initialuserIDOptions = userDropdown.html();
+
+        // Handle the change event of the FullName dropdown
+        fullNameDropdown.on("change", function () {
+            // Get the selected UserID
+            var selectedUserId = $(this).val();
+
+            // Filter the Phone dropdown options based on the selected UserID
+            var filteredOptions = initialPhoneOptions;
+            if (selectedUserId) {
+                var regex = new RegExp('value="' + selectedUserId + '"', 'g');
+                filteredOptions = initialPhoneOptions.replace(regex, 'selected value="' + selectedUserId + '"');
+            }
+
+            phoneDropdown.html(filteredOptions);
+
+            var filteredOptions = initialuserIDOptions;
+            if (selectedUserId) {
+                var regex = new RegExp('value="' + selectedUserId + '"', 'g');
+                filteredOptions = initialuserIDOptions.replace(regex, 'selected value="' + selectedUserId + '"');
+            }
+
+            userDropdown.html(filteredOptions);
+        });
+
+        // Handle the change event of the Phone dropdown
+        phoneDropdown.on("change", function () {
+            // Get the selected UserID
+            var selectedUserId = $(this).val();
+
+            // Filter the FullName dropdown options based on the selected UserID
+            var filteredOptions = initialFullNameOptions;
+            if (selectedUserId) {
+                var regex = new RegExp('value="' + selectedUserId + '"', 'g');
+                filteredOptions = initialFullNameOptions.replace(regex, 'selected value="' + selectedUserId + '"');
+            }
+
+            fullNameDropdown.html(filteredOptions);
+
+            var filteredOptions = initialuserIDOptions;
+            if (selectedUserId) {
+                var regex = new RegExp('value="' + selectedUserId + '"', 'g');
+                filteredOptions = initialuserIDOptions.replace(regex, 'selected value="' + selectedUserId + '"');
+            }
+
+            userDropdown.html(filteredOptions);
+
+        });
+    });
+</script>

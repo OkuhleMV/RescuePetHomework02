@@ -1,0 +1,132 @@
+﻿@model RescuePetHomework02.Models.DonationViewModel
+
+@{
+    ViewBag.Title = "Donation";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Donation - Paws of Hope</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #4caf50;
+        }
+
+        .status-bar-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .status-bar-container h4 {
+            color: #333;
+        }
+
+        .progress {
+            background-color: #fff;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+            margin-top: 10px;
+            height: 20px;
+        }
+
+        .progress-bar {
+            background-color: #4caf50;
+            height: 100%;
+            width: @Model.Status;
+        }
+
+        .text-success {
+            color: #4caf50;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .donation-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .donation-form label {
+            font-weight: bold;
+        }
+
+        .btn-donate {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <h2>Make a Donation</h2>
+
+        <div class="status-bar-container">
+            <h4>How much we've raised:</h4>
+            <p>Goal: @Model.GoalAmount.ToString("C")</p>
+            <p>Total Raised: @Model.TotalRaised.ToString("C")</p>
+        </div>
+
+        <div class="progress status-bar">
+            <div class="progress-bar" role="progressbar" style="width: @Model.Status;" aria-valuenow="@Model.Status" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        @if (Model.GoalReached)
+        {
+            <p class="text-success">Goal has been achieved!</p>
+        }
+
+        <div class="donation-form">
+            @using (Html.BeginForm("Donation", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectedUserName, "Name")
+                    @Html.DropDownListFor(model => model.SelectedUserName, Model.Users, "-- Select Name --", new { @class = "form-control", id = "userDropdown" })
+                    @Html.ValidationMessageFor(model => model.SelectedUserName)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SelectedNumber, "PhoneNumber")
+                    @Html.DropDownListFor(model => model.SelectedNumber, Model.PhoneList, "-- Select PhoneNumber --", new { @class = "form-control", id = "phoneDropdown" })
+                    @Html.ValidationMessageFor(model => model.SelectedNumber)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Amount, "Donation Amount (R)")
+                    @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Amount)
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Make Donation" class="btn btn-donate" />
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

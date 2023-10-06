@@ -1,0 +1,263 @@
+﻿@model IEnumerable<RescuePetHomework02.Models.PetViewModel>
+
+@{
+    ViewBag.Title = "Pets";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Pets</title>
+    
+</head>
+
+<body>
+    <style>
+        .filters {
+            display: flex;
+            justify-content: space-between; /* Evenly space elements */
+            align-items: center; /* Center elements vertically */
+            padding: 20px;
+        }
+
+        /* Style for the dropdowns */
+        .dropdown {
+            flex: 1; /* Equal width for each dropdown */
+            margin-right: 10px; /* Add some spacing between dropdowns */
+        }
+
+        .styled-select {
+            width: 50%; /* Full width within the dropdown container */
+            padding: 10px;
+            font-family: 'Arial', sans-serif; /* Preferred font */
+            color: #333; /* Dark gray text color */
+            background-color: #f7f7f7; /* Light gray background */
+            border: 2px solid #4caf50; /* Green border */
+            border-radius: 5px;
+        }
+
+        /* Style for the buttons */
+        .styled-button {
+            background-color: #4caf50; /* Green button background */
+            color: #fff; /* White button text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif; /* Preferred font */
+            cursor: pointer;
+        }
+
+            /* Clear button style */
+            .styled-button.clear {
+                background-color: #ccc; /* Gray background for clear button */
+                color: #333; /* Dark gray text color for clear button */
+            }
+
+            /* Add a hover effect for the buttons */
+            .styled-button:hover {
+                background-color: #45a049; /* Slightly darker green on hover */
+            }
+    </style>
+    <div>
+        <h1>Pets</h1>
+    </div>
+
+    <div class="content">
+        <div class="filters">
+            <div class="dropdown">
+                <select id="type" name="typeId">
+                    <option value="">Select Type</option>
+                    @foreach (var type in Model.Select(pet => pet.TypeName).Distinct())
+                    {
+                        <option value="@type" @(Request.QueryString["typeId"] == type ? "selected" : "")>@type</option>
+                    }
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <select id="breed" name="breedId">
+                    <option value="">Select Breed</option>
+                </select>
+            </div>
+
+            <div class="dropdown">
+                <select id="location" name="locationId">
+                    <option value="">Select Location</option>
+                    @foreach (var location in Model.Select(pet => pet.LocationName).Distinct())
+                    {
+                        <option value="@location" @(Request.QueryString["locationId"] == location ? "selected" : "")>@location</option>
+                    }
+                </select>
+            </div>
+
+                                         <!--Search-->
+            <button id="search">Search</button>
+            <button id="clear" class="clear">Clear</button>
+        </div>
+
+        <div class="container_pets">
+            @foreach (var pet in Model)
+            {
+                <div class="pet_pet" @if (pet.StatusName == "Adopted") { <text> adopted</text> }">
+                    <img src="~/Images/@pet.Image" alt="@pet.Name">
+                    <div style="color: black;">
+                        <span style="color: @if (pet.StatusName == "Adopted") { <text>red</text> }">@pet.StatusName</span><br>
+                        <span>Name: @pet.Name</span><br>
+                        <span>Gender: @pet.GenderName</span><br>
+                        <span>Age: @pet.Age years</span><br>
+                        <span>Weight: @pet.Weight kg</span><br>
+                        <p>Pet Story: @pet.Story</p>
+                        <span>Location: @pet.LocationName</span><br>
+                        <span>Posted by: @pet.UserName</span>
+                        @if (pet.StatusName == "Available")
+                        {
+                            <center><button style="background-color: black; color: white; padding: 8px 16px;" onclick="location.href='@Url.Action("Adopt", "Home")?petId=@pet.PetID'">VIEW</button></center>
+                        }
+                        <br>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+  <!--####################################################################-->
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container_pets {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Spacing between cells */
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style for individual pet cells */
+        .pet_pet {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f7f7; /* Light gray background */
+            border: 2px solid #4caf50; /* Green border */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+            /* Style for text within the pet_pet div */
+            .pet_pet span,
+            .pet_pet h2,
+            .pet_pet p {
+                font-family: 'Verdana', sans-serif; /* Friendly font (Verdana) */
+                color: #333; /* Dark gray text color */
+            }
+
+        .pet-info {
+            color: #555; /* Slightly darker gray for pet info */
+            padding-top: 10px;
+        }
+
+        .status {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c; /* Red for adopted status */
+        }
+
+        .gender,
+        .age,
+        .weight,
+        .location,
+        .posted-by {
+            color: #666; /* Gray for other information */
+            margin: 5px 0;
+        }
+
+        .story {
+            margin: 10px 0;
+            color: #444; /* Slightly darker gray for the pet story */
+        }
+
+        .view-button {
+            background-color: #4caf50; /* Green button background */
+            color: #fff; /* White button text color */
+            padding: 8px 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+            /* Add a hover effect for the buttons */
+            .view-button:hover {
+                background-color: #45a049; /* Slightly darker green on hover */
+            }
+    </style>
+    <!--####################################################################-->
+
+
+
+
+    <script>
+        function updateBreedOptions() {
+            var typeId = document.getElementById('type').value;
+            var breedDropdown = document.getElementById('breed');
+            breedDropdown.innerHTML = '<option value="">Select Breed</option>';
+
+            if (typeId) {
+                fetch('/Home/FilterBreedsByType?typeId=' + typeId)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (breeds) {
+                        breeds.forEach(function (breed) {
+                            var option = document.createElement('option');
+                            option.value = breed.BreedID;
+                            option.text = breed.Name;
+                            breedDropdown.appendChild(option);
+                        });
+                    })
+                    .catch(function (error) {
+                        console.error('Error fetching breed data:', error);
+                    });
+            }
+        }
+        document.getElementById('type').addEventListener('change', updateBreedOptions);
+        updateBreedOptions();
+
+        document.getElementById('search').addEventListener('click', function () {
+            var typeId = document.getElementById('type').value;
+            var breedId = document.getElementById('breed').value;
+            var locationId = document.getElementById('location').value;
+            var url = '@Url.Action("Pets", "Home")' +
+                '?typeId=' + encodeURIComponent(typeId) +
+                '&breedId=' + encodeURIComponent(breedId) +
+                '&locationId=' + encodeURIComponent(locationId);
+            window.location.href = url;
+        });
+
+        document.getElementById('clear').addEventListener('click', function () {
+        document.getElementById('type').value = '';
+        document.getElementById('breed').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('search').click();
+        });
+    </script>
+
+
+</body>
+</html>

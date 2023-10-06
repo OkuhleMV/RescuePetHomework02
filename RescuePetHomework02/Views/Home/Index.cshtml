@@ -1,0 +1,101 @@
+﻿@model IEnumerable<RescuePetHomework02.Models.Adoption>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paws of Hope Rescue Pets</title>
+</head>
+<body>
+    <div>
+        <h1>PAWS OF HOPE</h1>
+        <div>"Adopt love, Foster happiness"</div>
+
+        <div style="display: flex; justify-content: space-between;">
+            <div class="pet-rescue-center" style="flex: 1; padding-right: 20px;">
+                <h1>Welcome to Paws of Hope Pet Rescue Center</h1>
+                <p>At Paws of Hope, we are dedicated to providing a loving and safe haven for animals in need. Our mission is to rescue, rehabilitate, and find forever homes for pets who have been abandoned, neglected, or abused. With a team of passionate volunteers and experienced staff, we work tirelessly to ensure that every furry friend gets a second chance at a happy life.</p>
+                <p>Our state-of-the-art facility offers comfortable accommodations, nutritious meals, and plenty of playtime for our four-legged residents. We believe in the power of love and kindness, and we strive to match each pet with the perfect family to ensure a lifetime of companionship and happiness.</p>
+                <p>Whether you're looking to adopt a new furry family member or would like to support our cause, we welcome you to be a part of the Paws of Hope family. Together, we can make a difference in the lives of countless animals and give them the love and care they deserve.</p>
+                <p>Come visit us today and witness the heartwarming transformations that happen every day at Paws of Hope Pet Rescue Center.</p>
+                <h3>@Model.Count() Pets have found their forever homes</h3>
+                @if (Model.Any())
+                {
+                    <ul>
+                        @foreach (var adoption in Model)
+                        {
+                            <li>@adoption.Pet.Name has found a loving home with @adoption.User.Name</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="no-adoptions">No adoptions found.</p>
+                }
+                <a href="@Url.Action("Pets", "Home")">View Available Pets</a>
+            </div>
+            <!-- Add an image to the right -->
+            <img src="../../Images/dane2.jpg" alt="Dog Image" style="max-width: 40%; height: auto;">
+        </div>
+    </div>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4caf50;
+        }
+
+        .pet-rescue-center {
+            background-color: #fff;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            color: #333;
+        }
+
+        h3 {
+            margin-top: 20px;
+            color: #4caf50;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .no-adoptions {
+            color: #e74c3c;
+        }
+    </style>
+</body>
+</html>

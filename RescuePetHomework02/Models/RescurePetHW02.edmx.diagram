@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="88efec6208044f07b75c224640f7297c" Name="Diagram1">
+        <EntityTypeShape EntityType="RescuePetHW02Model.Adoption" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Breed" Width="1.5" PointX="3.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Donation" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Gender" Width="1.5" PointX="3.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Location" Width="1.5" PointX="3.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Pet" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Status" Width="1.5" PointX="3.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.Type" Width="1.5" PointX="1.5" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RescuePetHW02Model.User" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Adoption__PetID__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Adoption__UserID__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Breed__TypeID__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Pet__BreedID__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Donation__UserID__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Pet__GenderID__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Pet__LocationID__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Pet__StatusID__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Pet__TypeID__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="RescuePetHW02Model.FK__Pet__UserID__47DBAE45" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
